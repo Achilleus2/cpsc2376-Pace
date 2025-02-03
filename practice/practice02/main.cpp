@@ -5,7 +5,7 @@
 void checkBalance(const std::string& accountFile);
 void deposit(const std::string& accountFile, double depositAmount);
 void withdraw(const std::string& accountFile, double withdrawAmount);
-void readBalanceFromFile(const std::string& accountFile);
+double readBalanceFromFile(const std::string& accountFile);
 void writeBalanceToFile(const std::string& accountFile, const std::string& balance);
 
 int main()
@@ -15,7 +15,9 @@ int main()
 		if (accountT.good())
 		{
 			accountT.close();
-			std::cout << "Your current balance is: " << checkBalance("account_balance.txt") << "\n" << std::endl;
+			std::cout << "Your current balance is: ";
+			checkBalance("account_balance.txt");
+			std::cout << "\n" << std::endl;
 		}
 		else
 		{
@@ -28,7 +30,9 @@ int main()
 		{
 			if (menuChoice == 1)
 			{
-				std::cout << "Your current balance is: " << checkBalance("account_balance.txt") << std::endl;
+				std::cout << "Your current balance is: ";
+				checkBalance("account_balance.txt");
+				std::cout << " " << std::endl;
 			}
 			else if (menuChoice == 2)
 			{
@@ -67,7 +71,8 @@ int main()
 
 void checkBalance(const std::string& accountFile)
 {
-	std::cout << "$" << readBalanceFromFile(accountFile);
+	std::cout << "$"; 
+	readBalanceFromFile(accountFile);
 }
 
 void deposit(const std::string& accountFile, double depositAmount)
@@ -82,7 +87,9 @@ void deposit(const std::string& accountFile, double depositAmount)
 	{
 		newBalance = readBalanceFromFile(accountFile) + depositAmount;
 		writeBalanceToFile(accountFile, newBalance);
-		std::cout << "Deposit successful. Your new balance is: " << checkBalance(accountFile) << std::endl;
+		std::cout << "Deposit successful. Your new balance is: ";
+		checkBalance(accountFile);
+		std::cout << "" << std::endl;
 		return;
 	}
 }
@@ -98,14 +105,18 @@ void withdraw(const std::string& accountFile, double withdrawAmount)
 	{
 		if (withdrawAmount > readBalanceFromFile(accountFile))
 		{
-			std::cout << "Error: Insufficent funds. Your balance is: " << checkBalance(accountFile) << std::endl;
+			std::cout << "Error: Insufficent funds. Your balance is: "; 
+			checkBalance(accountFile);
+			std::cout << "" << std::endl;
 			return;
 		}
 		else
 		{
 			double newBalance = readBalanceFromFile(accountFile) - withdrawAmount;
 			writeBalanceToFile(accountFile, newBalance);
-			std::cout << "Withdraw successful. Your new balance is: " << checkBalance(accountFile) << std::endl;
+			std::cout << "Withdraw successful. Your new balance is: ";
+			checkBalance(accountFile);
+			std::cout << "" << std::endl;
 		}
 	}
 }
