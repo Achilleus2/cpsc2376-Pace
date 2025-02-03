@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <iomanip>
 
 void checkBalance(const std::string& accountFile);
 void deposit(const std::string& accountFile, double depositAmount);
@@ -22,6 +23,7 @@ int main()
 		else
 		{
 			std::ofstream account("account_balance.txt");
+			account.close();
 			double initialAmount = 100.00;
 			writeBalanceToFile("account_balance.txt", initialAmount);
 			std::cout << "Initializing account with $100.00...\n" << std::endl;
@@ -64,7 +66,8 @@ int main()
 				<< "Enter your choice: ";
 			std::cin >> menuChoice;
 		}
-
+		
+	std::cout << "Goodbye" << std::endl;
 
 	return 0;
 }
@@ -72,7 +75,7 @@ int main()
 
 void checkBalance(const std::string& accountFile)
 {
-	std::cout << "$" << readBalanceFromFile(accountFile);
+	std::cout << "$" << std::fixed << std::setprecision(2) << readBalanceFromFile(accountFile);
 }
 
 void deposit(const std::string& accountFile, double depositAmount)
@@ -105,7 +108,7 @@ void withdraw(const std::string& accountFile, double withdrawAmount)
 	{
 		if (withdrawAmount > readBalanceFromFile(accountFile))
 		{
-			std::cout << "Error: Insufficent funds. Your balance is: "; 
+			std::cout << "Error: Insufficent funds. Your balance is "; 
 			checkBalance(accountFile);
 			std::cout << "" << std::endl;
 			return ;
