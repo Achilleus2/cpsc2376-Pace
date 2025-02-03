@@ -6,7 +6,7 @@ void checkBalance(const std::string& accountFile);
 void deposit(const std::string& accountFile, double depositAmount);
 void withdraw(const std::string& accountFile, double withdrawAmount);
 double readBalanceFromFile(const std::string& accountFile);
-void writeBalanceToFile(const std::string& accountFile, const std::string& balance);
+void writeBalanceToFile(const std::string& accountFile, double balance);
 
 int main()
 {
@@ -22,7 +22,8 @@ int main()
 		else
 		{
 			std::ofstream account("account_balance.txt");
-			writeBalanceToFile("account_balance.txt", 100.00);
+			double initialAmount = 100.00;
+			writeBalanceToFile("account_balance.txt", initialAmount);
 			std::cout << "Initializing account with $100.00...\n" << std::endl;
 		}
 		double menuChoice = 0;
@@ -32,34 +33,34 @@ int main()
 			{
 				std::cout << "Your current balance is: ";
 				checkBalance("account_balance.txt");
-				std::cout << " " << std::endl;
+				std::cout << " \n\n" << std::endl;
 			}
 			else if (menuChoice == 2)
 			{
 				double depositA = 0;
 				std::cout << "Enter deposit amount: ";
 				std::cin >> depositA;
-				std::cout << "" << std::endl;
 				deposit("account_balance.txt", depositA);
+				std::cout << "\n" << std::endl;
 			}
 			else if (menuChoice == 3)
 			{
 				double withdrawA = 0;
 				std::cout << "Enter withdraw amount: ";
 				std::cin >> withdrawA;
-				std::cout << "" << std::endl;
 				withdraw("account_balance.txt", withdrawA);
+				std::cout << "\n" << std::endl;
 			}
 			else if (menuChoice < 0 or menuChoice > 4)
 			{
-				std::cout << "Error: Choice entered is not supported." << std::endl;
+				std::cout << "Error: Choice entered is not supported.\n" << std::endl;
 			}
 
-			std::cout << "Menu:"
-				<< "1. Check Balance"
-				<< "2. Deposit Money"
-				<< "3. Withdraw Money"
-				<< "4. Exit\n"
+			std::cout << "Menu:\n"
+				<< "1. Check Balance\n"
+				<< "2. Deposit Money\n"
+				<< "3. Withdraw Money\n"
+				<< "4. Exit\n\n"
 				<< "Enter your choice: ";
 			std::cin >> menuChoice;
 		}
@@ -71,8 +72,7 @@ int main()
 
 void checkBalance(const std::string& accountFile)
 {
-	std::cout << "$"; 
-	readBalanceFromFile(accountFile);
+	std::cout << "$" << readBalanceFromFile(accountFile);
 }
 
 void deposit(const std::string& accountFile, double depositAmount)
@@ -108,7 +108,7 @@ void withdraw(const std::string& accountFile, double withdrawAmount)
 			std::cout << "Error: Insufficent funds. Your balance is: "; 
 			checkBalance(accountFile);
 			std::cout << "" << std::endl;
-			return;
+			return ;
 		}
 		else
 		{
@@ -128,7 +128,8 @@ double readBalanceFromFile(const std::string& accountFile)
 	if (!inFile.is_open())
 	{
 		std::cerr << "Failed to open file" << std::endl;
-		return;
+		amount = -1;
+		return amount;
 	}
 	else
 	{
@@ -136,7 +137,8 @@ double readBalanceFromFile(const std::string& accountFile)
 		if (!inFile)
 		{
 			std::cerr << "Failed to read from file" << std::endl;
-			return;
+			amount = -1;
+			return amount;
 		}
 		inFile.close();
 		return amount;
