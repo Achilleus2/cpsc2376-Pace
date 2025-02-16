@@ -2,12 +2,34 @@
 #include <fstream>
 #include <string>
 #include <iomanip>
+#include <limits>
 
 void checkBalance(const std::string& accountFile);
 void deposit(const std::string& accountFile, double depositAmount);
 void withdraw(const std::string& accountFile, double withdrawAmount);
 double readBalanceFromFile(const std::string& accountFile);
 void writeBalanceToFile(const std::string& accountFile, double balance);
+
+void ignoreLine()
+{
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+}
+
+double getDouble()
+{
+    while (true)
+    {
+        double x{};
+        std::cin >> x;
+        bool success { std::cin };
+        std::cin.clear();
+        ignoreLine();
+        if (success)
+            return x;
+		else 
+		std::cerr << "*Error invalid input* \n Try again: ";
+    }
+}
 
 int main()
 {
@@ -64,7 +86,7 @@ int main()
 				<< "3. Withdraw Money\n"
 				<< "4. Exit\n\n"
 				<< "Enter your choice: ";
-			std::cin >> menuChoice;
+				menuChoice = getDouble();
 		}
 		
 	std::cout << "Goodbye" << std::endl;
@@ -162,3 +184,4 @@ void writeBalanceToFile(const std::string& accountFile, double balance)
 		outFile.close();
 	}
 }
+
