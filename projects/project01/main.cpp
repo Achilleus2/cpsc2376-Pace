@@ -1,10 +1,15 @@
 #include <iostream>
 #include <vector>
+#include <cstdlib>
 
 enum class gameState {onGoing, player1Wins, player2Wins, draw};
 
+void endProgram();
+void player1Turn(std::vector<std::vector<int>>& board, int& column, int& row);
+void player2Turn(std::vector<std::vector<int>>& board, int& column, int& row);
 void ignoreLine();
 int getInt();
+void fullGameCheck(std::vector<std::vector<int>> nums);
 std::vector<std::vector<int>> makeBoard();
 int play();
 enum gameState gameStatus(std::vector<std::vector<int>> nums);
@@ -41,107 +46,18 @@ int main(){
             gameBoard(board);
             int turn = play();
             if (turn == 1){
-                while (true){
-                    std::cout << "Player 1 enter the number of the column you would like to send your piece down into: ";
-                    int player1Choice = getInt();
-                    if (player1Choice > 7 || player1Choice < 1){
-                        std::cerr << "Error: You have entered a number this isn't between 1 and 7, try again.\n\n";
-                    }
-                    else if (columnAvailibility(board, (player1Choice-1)) > -1){
-                        board[columnAvailibility(board, (player1Choice-1))][player1Choice-1] = 1;
-                        if (gameStatus(board) == gameState::onGoing){
-                            break;
-                        }
-                        else if (gameStatus(board) == gameState::draw){
-                            while (true){
-                                gameBoard(board);
-                                std::cout << "The Game has ended in a Draw.\n Enter 1 to play again or 0 to exit the program: ";
-                                int userOption = getInt();
-                                if (userOption == 0){
-                                    return 0;
-                                }
-                                else if (userOption == 1){
-                                    break;
-                                }
-                                else{
-                                    std::cerr << "Error: You have entered a number that isn't 1 or 0, try again.\n\n";
-                                }
-                            }
-                        }
-                        else if (gameStatus(board) == gameState::player1Wins){
-                            while (true){
-                                gameBoard(board);
-                                std::cout << "The Game has ended, Player 1 wins.\n Enter 1 to play again or 0 to exit the program: ";
-                                int userOption = getInt();
-                                if (userOption == 0){
-                                    return 0;
-                                }
-                                else if (userOption == 1){
-                                    break;
-                                }
-                                else{
-                                    std::cerr << "Error: You have entered a number that isn't 1 or 0, try again.\n\n";
-                                }
-                            }
-                        }
-                        break;
-                    }
-                    else{
-                        std::cerr << "Error: The column you have entered is full, try again.\n\n";
-                    }
-                }
+                int column;
+                int row;
+                player1Turn(board, column, row);
+                board[row][column] = 1;
+                fullGameCheck(board);
             }
             else if (turn == 0){
-                while (true){
-                    std::cout << "Player 2 enter the number of the column you would like to send your piece down into: ";
-                    int player2Choice = getInt();
-                    if (player2Choice > 7 || player2Choice < 1){
-                        std::cerr << "Error: You have entered a number this isn't between 1 and 7, try again.\n\n";
-                    }
-                    else if (columnAvailibility(board, (player2Choice-1)) > -1){
-                        board[columnAvailibility(board, (player2Choice-1))][player2Choice-1] = 2;
-                        if (gameStatus(board) == gameState::onGoing){
-                            break;
-                        }
-                        else if (gameStatus(board) == gameState::draw){
-                            while (true){
-                                gameBoard(board);
-                                std::cout << "The Game has ended in a Draw.\n Enter 1 to play again or 0 to exit the program: ";
-                                int userOption = getInt();
-                                if (userOption == 0){
-                                    return 0;
-                                }
-                                else if (userOption == 1){
-                                    break;
-                                }
-                                else{
-                                    std::cerr << "Error: You have entered a number that isn't 1 or 0, try again.\n\n";
-                                }
-                            }
-                        }
-                        else if (gameStatus(board) == gameState::player2Wins){
-                            while (true){
-                                gameBoard(board);
-                                std::cout << "The Game has ended, Player 2 wins.\n Enter 1 to play again or 0 to exit the program: ";
-                                int userOption = getInt();
-                                if (userOption == 0){
-                                    return 0;
-                                }
-                                else if (userOption == 1){
-                                    break;
-                                }
-                                else{
-                                    std::cerr << "Error: You have entered a number that isn't 1 or 0, try again.\n\n";
-                                }
-                            }
-                        }
-                        break;
-                    }
-                    else{
-                        std::cerr << "Error: The column you have entered is full, try again.\n\n";
-                    }
-
-                }
+                int column;
+                int row;
+                player2Turn(board, column, row);
+                board[row][column] = 2;
+                fullGameCheck(board);
             }
             if (gameStatus(board) == gameState::draw || gameStatus(board) == gameState::player1Wins || gameStatus(board) == gameState::player2Wins){
                 break;
@@ -152,6 +68,50 @@ int main(){
 	return 0;
 }
 
+void endProgram() 
+{
+    std::cout << "Exiting program...\n";
+    exit(0);
+}
+
+void player1Turn(std::vector<std::vector<int>>& board, int& column, int& row)
+{
+    while (true) {
+        std::cout << "Player 1 enter the number of the column you would like to send your piece down into: ";
+        int player1Choice = getInt();
+        if (player1Choice > 7 || player1Choice < 1) {
+            std::cerr << "Error: You have entered a number this isn't between 1 and 7, try again.\n\n";
+        }
+        else if (columnAvailibility(board, (player1Choice - 1)) > -1) {
+            column = player1Choice - 1;
+            row = columnAvailibility(board, (player1Choice - 1));
+            break;
+        }
+        else {
+            std::cerr << "Error: The column you have entered is full, try again.\n\n";
+        }
+    }
+}
+
+void player2Turn(std::vector<std::vector<int>>& board, int& column, int& row)
+{
+    while (true) {
+        std::cout << "Player 2 enter the number of the column you would like to send your piece down into: ";
+        int player2Choice = getInt();
+        if (player2Choice > 7 || player2Choice < 1) {
+            std::cerr << "Error: You have entered a number this isn't between 1 and 7, try again.\n\n";
+        }
+        else if (columnAvailibility(board, (player2Choice - 1)) > -1) {
+            column = player2Choice - 1;
+            row = columnAvailibility(board, (player2Choice - 1));
+            break;
+        }
+        else {
+            std::cerr << "Error: The column you have entered is full, try again.\n\n";
+        }
+
+    }
+}
 
 void ignoreLine()
 {
@@ -208,6 +168,58 @@ enum gameState gameStatus(std::vector<std::vector<int>> nums)
     else
     {
         return gameState::onGoing;
+    }
+}
+
+void fullGameCheck(std::vector<std::vector<int>> nums)
+{
+    if (gameStatus(nums) == gameState::draw) {
+        while (true) {
+            gameBoard(nums);
+            std::cout << "The Game has ended in a Draw.\n Enter 1 to play again or 0 to exit the program: ";
+            int userOption = getInt();
+            if (userOption == 0) {
+                endProgram();
+            }
+            else if (userOption == 1) {
+                break;
+            }
+            else {
+                std::cerr << "Error: You have entered a number that isn't 1 or 0, try again.\n\n";
+            }
+        }
+    }
+    else if (gameStatus(nums) == gameState::player1Wins) {
+        while (true) {
+            gameBoard(nums);
+            std::cout << "The Game has ended, Player 1 wins.\n Enter 1 to play again or 0 to exit the program: ";
+            int userOption = getInt();
+            if (userOption == 0) {
+                endProgram();
+            }
+            else if (userOption == 1) {
+                break;
+            }
+            else {
+                std::cerr << "Error: You have entered a number that isn't 1 or 0, try again.\n\n";
+            }
+        }
+    }
+    else if (gameStatus(nums) == gameState::player2Wins) {
+        while (true) {
+            gameBoard(nums);
+            std::cout << "The Game has ended, Player 2 wins.\n Enter 1 to play again or 0 to exit the program: ";
+            int userOption = getInt();
+            if (userOption == 0) {
+                endProgram();
+            }
+            else if (userOption == 1) {
+                break;
+            }
+            else {
+                std::cerr << "Error: You have entered a number that isn't 1 or 0, try again.\n\n";
+            }
+        }
     }
 }
 
