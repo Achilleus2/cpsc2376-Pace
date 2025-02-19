@@ -229,19 +229,21 @@ void userMenu()
 
 void gameBoard(const std::vector<std::vector<int>>& nums)
 {
-    std::cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
+    std::cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
+    std::cout << "-----------------\n";
     for (int i = 0; i < nums.size(); i++) 
     {
+        std::cout << "| ";
         for (int j = 0; j < nums[0].size(); j++)
         {
             if (nums[i][j] == 0) std::cout << ". ";
             else if (nums[i][j] == 1) std::cout << "X ";
             else if (nums[i][j] == 2) std::cout << "O ";
         }
-        std::cout << std::endl;
+        std::cout << "|" << std::endl;
     }
-    std::cout << "-------------\n";
-    std::cout << "1 2 3 4 5 6 7\n";
+    std::cout << "-----------------\n";
+    std::cout << "  1 2 3 4 5 6 7\n";
     std::cout << "Turns left: " << turnsLeft(0) << std::endl;
 
 }
