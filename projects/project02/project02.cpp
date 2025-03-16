@@ -10,7 +10,6 @@ int main() {
     while (true)
     {
         Connect4 a;
-        a.userMenu();
         a.display();
         while (a.status() == Connect4::gameState::onGoing)
         {
@@ -25,7 +24,7 @@ int main() {
                 std::cout << "Player " << player << " enter the number of the column you would like to send your piece down into : ";
                 int playerChoice = getInt();
                 if (playerChoice > 7 || playerChoice < 1) {
-                    std::cerr << "*Error: You have entered a number this isn't between 1 and 7, try again.*\n\n";
+                    std::cerr << "\n*Error: You have entered a number this isn't between 1 and 7, try again.*\n\n";
                 }
                 else if (a.columnAvailibility(b, (playerChoice - 1)) > -1) {
                     column = playerChoice - 1;
@@ -33,7 +32,7 @@ int main() {
                     break;
                 }
                 else {
-                    std::cerr << "*Error: The column you have entered is full, try again.*\n\n";
+                    std::cerr << "\n*Error: The column you have entered is full, try again.*\n\n";
                 }
             }
             a.play(row, column);
@@ -48,7 +47,7 @@ int main() {
         else {
             std::cout << "Game has ended in a Draw" << std::endl;
         }
-        std::cout << "Enter 1 to play or any other integer value to exit the program: ";
+        std::cout << "Enter 1 to play again or any other integer value to exit the program: ";
         int choice = getInt();
         if (choice != 1)
         {
@@ -76,6 +75,6 @@ int getInt()
         if (success)
             return x;
         else
-            std::cerr << "*Error invalid input* \n Try again: ";
+            std::cerr << "\n*Error invalid input* \n\n Try again: ";
     }
 }

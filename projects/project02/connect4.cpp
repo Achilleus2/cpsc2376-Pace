@@ -278,6 +278,10 @@ enum Connect4::gameState Connect4::status() const
 void Connect4::display() const
 {
     std::cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
+    std::cout << "*Rules*\nSetup : Player #1 gets an X board piece and player #2 gets a O board piece. Take turns dropping one piece into a column.\n"
+        << "Objective : Be the first to connect four of your pieces in a row, column, or diagonal.\n"
+        << "Turns : Players take turns dropping one piece at a time. Pieces stack on top of each other.\n"
+        << "Winning : If a player connects four in a row, they win!\n";
     std::cout << "-----------------\n";
     for (int i = 0; i < board.size(); i++)
     {
@@ -312,14 +316,6 @@ int Connect4::playerTurn()
     return turns % 2;
 }
 
-void Connect4::userMenu()
-{
-    std::cout << "*Rules*\nSetup : Player #1 gets an X board piece and player #2 gets a O board piece. Take turns dropping one piece into a column.\n"
-        << "Objective : Be the first to connect four of your pieces in a row, column, or diagonal.\n"
-        << "Turns : Players take turns dropping one piece at a time. Pieces stack on top of each other.\n"
-        << "Winning : If a player connects four in a row, they win!\n\n";
-}
-
 int Connect4::columnAvailibility(std::vector<std::vector<int>>& nums, int columnNum)
 {
     for (int i = 5; i >= 0; i--)
@@ -330,4 +326,29 @@ int Connect4::columnAvailibility(std::vector<std::vector<int>>& nums, int column
         }
     }
     return -1;
+}
+
+std::ostream& operator<<(std::ostream& out, const Connect4& a)
+{
+    out << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
+    out << "*Rules*\nSetup : Player #1 gets an X board piece and player #2 gets a O board piece. Take turns dropping one piece into a column.\n"
+        << "Objective : Be the first to connect four of your pieces in a row, column, or diagonal.\n"
+        << "Turns : Players take turns dropping one piece at a time. Pieces stack on top of each other.\n"
+        << "Winning : If a player connects four in a row, they win!\n";
+    out << "-----------------\n";
+    for (int i = 0; i < a.board.size(); i++)
+    {
+        out << "| ";
+        for (int j = 0; j < a.board[0].size(); j++)
+        {
+            if (a.board[i][j] == 0) out << ". ";
+            else if (a.board[i][j] == 1) out << "X ";
+            else if (a.board[i][j] == 2) out << "O ";
+        }
+        out << "|\n";
+    }
+    out << "-----------------\n";
+    out << "  1 2 3 4 5 6 7\n";
+    out << "Turns left: " << a.turns << "\n";
+    return out;
 }

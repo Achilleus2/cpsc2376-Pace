@@ -17,6 +17,6 @@ public:
 	void display() const;
 	std::vector<std::vector<int>> makeBoard();
 	int playerTurn();
-	void userMenu();
 	int columnAvailibility(std::vector<std::vector<int>>& nums, int columnNum);
+	friend std::ostream& operator<<(std::ostream& out, const Connect4& game);
 };
