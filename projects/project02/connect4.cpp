@@ -1,6 +1,5 @@
 #include <iostream>
 #include <vector>
-#include <cstdlib>
 #include "connect4.h"
 
 Connect4::Connect4()
@@ -9,21 +8,20 @@ Connect4::Connect4()
     turns = 42;
 }
 
-void Connect4::play()
+void Connect4::play(int row, int column)
 {
     turns--;
     if (playerTurn() == 1) {
-        int column;
-        int row;
-        player1Turn(board, column, row);
         board[row][column] = 1;
     }
     else if (playerTurn() == 0) {
-        int column;
-        int row;
-        player2Turn(board, column, row);
         board[row][column] = 2;
     }
+}
+
+std::vector<std::vector<int>> Connect4::getBoard() const
+{
+    return board;
 }
 
 enum Connect4::gameState Connect4::status() const
@@ -297,72 +295,6 @@ void Connect4::display() const
     std::cout << "Turns left: " << turns << std::endl;
 }
 
-void Connect4::endProgram()
-{
-    std::cout << "Exiting program...\n";
-    exit(0);
-}
-
-void Connect4::player1Turn(std::vector<std::vector<int>>& board, int& column, int& row)
-{
-    while (true) {
-        std::cout << "Player 1 enter the number of the column you would like to send your piece down into: ";
-        int player1Choice = getInt();
-        if (player1Choice > 7 || player1Choice < 1) {
-            std::cerr << "Error: You have entered a number this isn't between 1 and 7, try again.\n\n";
-        }
-        else if (columnAvailibility(board, (player1Choice - 1)) > -1) {
-            column = player1Choice - 1;
-            row = columnAvailibility(board, (player1Choice - 1));
-            break;
-        }
-        else {
-            std::cerr << "Error: The column you have entered is full, try again.\n\n";
-        }
-    }
-}
-
-void Connect4::player2Turn(std::vector<std::vector<int>>& board, int& column, int& row)
-{
-    while (true) {
-        std::cout << "Player 2 enter the number of the column you would like to send your piece down into: ";
-        int player2Choice = getInt();
-        if (player2Choice > 7 || player2Choice < 1) {
-            std::cerr << "Error: You have entered a number this isn't between 1 and 7, try again.\n\n";
-        }
-        else if (columnAvailibility(board, (player2Choice - 1)) > -1) {
-            column = player2Choice - 1;
-            row = columnAvailibility(board, (player2Choice - 1));
-            break;
-        }
-        else {
-            std::cerr << "Error: The column you have entered is full, try again.\n\n";
-        }
-
-    }
-}
-
-void Connect4::ignoreLine()
-{
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-}
-
-int Connect4::getInt()
-{
-    while (true)
-    {
-        int x{};
-        std::cin >> x;
-        bool success{ std::cin };
-        std::cin.clear();
-        ignoreLine();
-        if (success)
-            return x;
-        else
-            std::cerr << "*Error invalid input* \n Try again: ";
-    }
-}
-
 std::vector<std::vector<int>> Connect4::makeBoard()
 {
     std::vector<std::vector<int>> nums = {
@@ -385,8 +317,7 @@ void Connect4::userMenu()
     std::cout << "*Rules*\nSetup : Player #1 gets an X board piece and player #2 gets a O board piece. Take turns dropping one piece into a column.\n"
         << "Objective : Be the first to connect four of your pieces in a row, column, or diagonal.\n"
         << "Turns : Players take turns dropping one piece at a time. Pieces stack on top of each other.\n"
-        << "Winning : If a player connects four in a row, they win!\n\n"
-        << "Enter the number 1 to continue or 0 to exit the program: ";
+        << "Winning : If a player connects four in a row, they win!\n\n";
 }
 
 int Connect4::columnAvailibility(std::vector<std::vector<int>>& nums, int columnNum)

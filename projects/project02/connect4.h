@@ -10,15 +10,11 @@ private:
 	int turns = 0;
 public:
 	Connect4();
-	void play();
+	void play(int row, int column);
+	std::vector<std::vector<int>> getBoard() const;
 	enum class gameState { onGoing, player1Wins, player2Wins, draw };
 	enum Connect4::gameState status() const;
 	void display() const;
-	void endProgram();
-	void player1Turn(std::vector<std::vector<int>>& board, int& column, int& row);
-	void player2Turn(std::vector<std::vector<int>>& board, int& column, int& row);
-	void ignoreLine();
-	int getInt();
 	std::vector<std::vector<int>> makeBoard();
 	int playerTurn();
 	void userMenu();
