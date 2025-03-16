@@ -17,25 +17,10 @@ int main() {
             if ((a.playerTurn() - 1) == 0) {
                 player = 2;
             }
-            int column;
-            int row;
             std::vector<std::vector<int>> b = a.getBoard();
-            while (true) {
-                std::cout << "Player " << player << " enter the number of the column you would like to send your piece down into : ";
-                int playerChoice = getInt();
-                if (playerChoice > 7 || playerChoice < 1) {
-                    std::cerr << "\n*Error: You have entered a number this isn't between 1 and 7, try again.*\n\n";
-                }
-                else if (a.columnAvailibility(b, (playerChoice - 1)) > -1) {
-                    column = playerChoice - 1;
-                    row = a.columnAvailibility(b, (playerChoice - 1));
-                    break;
-                }
-                else {
-                    std::cerr << "\n*Error: The column you have entered is full, try again.*\n\n";
-                }
-            }
-            a.play(row, column);
+            std::cout << "Player " << player << " enter the number of the column you would like to send your piece down into : ";
+            int column = getInt();
+            a.play(column);
             a.display();
         }
         if (a.status() == Connect4::gameState::player1Wins) {
@@ -75,6 +60,6 @@ int getInt()
         if (success)
             return x;
         else
-            std::cerr << "\n*Error invalid input* \n\n Try again: ";
+            std::cerr << "\n*****Error invalid input***** \n\n Try again: ";
     }
 }

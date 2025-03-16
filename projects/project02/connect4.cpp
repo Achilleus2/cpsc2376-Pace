@@ -8,14 +8,25 @@ Connect4::Connect4()
     turns = 42;
 }
 
-void Connect4::play(int row, int column)
+void Connect4::play(int column)
 {
     turns--;
-    if (playerTurn() == 1) {
-        board[row][column] = 1;
+    if (column > 7 || column < 1) {
+        std::cerr << "\n\n\n\n\n\n*****Error: You have entered a number this isn't between 1 and 7, try again.*****";
+        turns++;
     }
-    else if (playerTurn() == 0) {
-        board[row][column] = 2;
+    else if (columnAvailibility(board, (column - 1)) > -1) {
+        column -= 1;
+        if (playerTurn() == 1) {
+            board[columnAvailibility(board, column)][column] = 1;
+        }
+        else if (playerTurn() == 0) {
+            board[columnAvailibility(board, column)][column] = 2;
+        }
+    }
+    else {
+        std::cerr << "\n\n\n\n\n\n*****Error: The column you have entered is full, try again.*****";
+        turns++;
     }
 }
 
@@ -275,28 +286,34 @@ enum Connect4::gameState Connect4::status() const
     }
 }
 
-void Connect4::display() const
+std::ostream& operator<<(std::ostream& out, const Connect4& a)
 {
-    std::cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
-    std::cout << "*Rules*\nSetup : Player #1 gets an X board piece and player #2 gets a O board piece. Take turns dropping one piece into a column.\n"
+    out << "\n\n\n\n\n\n\n";
+    out << "*Rules*\nSetup : Player #1 gets an X board piece and player #2 gets a O board piece. Take turns dropping one piece into a column.\n"
         << "Objective : Be the first to connect four of your pieces in a row, column, or diagonal.\n"
         << "Turns : Players take turns dropping one piece at a time. Pieces stack on top of each other.\n"
         << "Winning : If a player connects four in a row, they win!\n";
-    std::cout << "-----------------\n";
-    for (int i = 0; i < board.size(); i++)
+    out << "-----------------\n";
+    for (int i = 0; i < a.board.size(); i++)
     {
-        std::cout << "| ";
-        for (int j = 0; j < board[0].size(); j++)
+        out << "| ";
+        for (int j = 0; j < a.board[0].size(); j++)
         {
-            if (board[i][j] == 0) std::cout << ". ";
-            else if (board[i][j] == 1) std::cout << "X ";
-            else if (board[i][j] == 2) std::cout << "O ";
+            if (a.board[i][j] == 0) out << ". ";
+            else if (a.board[i][j] == 1) out << "X ";
+            else if (a.board[i][j] == 2) out << "O ";
         }
-        std::cout << "|" << std::endl;
+        out << "|\n";
     }
-    std::cout << "-----------------\n";
-    std::cout << "  1 2 3 4 5 6 7\n";
-    std::cout << "Turns left: " << turns << std::endl;
+    out << "-----------------\n";
+    out << "  1 2 3 4 5 6 7\n";
+    out << "Turns left: " << a.turns << "\n";
+    return out;
+}
+
+void Connect4::display() const
+{
+    std::cout << *this;
 }
 
 std::vector<std::vector<int>> Connect4::makeBoard()
@@ -328,27 +345,3 @@ int Connect4::columnAvailibility(std::vector<std::vector<int>>& nums, int column
     return -1;
 }
 
-std::ostream& operator<<(std::ostream& out, const Connect4& a)
-{
-    out << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
-    out << "*Rules*\nSetup : Player #1 gets an X board piece and player #2 gets a O board piece. Take turns dropping one piece into a column.\n"
-        << "Objective : Be the first to connect four of your pieces in a row, column, or diagonal.\n"
-        << "Turns : Players take turns dropping one piece at a time. Pieces stack on top of each other.\n"
-        << "Winning : If a player connects four in a row, they win!\n";
-    out << "-----------------\n";
-    for (int i = 0; i < a.board.size(); i++)
-    {
-        out << "| ";
-        for (int j = 0; j < a.board[0].size(); j++)
-        {
-            if (a.board[i][j] == 0) out << ". ";
-            else if (a.board[i][j] == 1) out << "X ";
-            else if (a.board[i][j] == 2) out << "O ";
-        }
-        out << "|\n";
-    }
-    out << "-----------------\n";
-    out << "  1 2 3 4 5 6 7\n";
-    out << "Turns left: " << a.turns << "\n";
-    return out;
-}

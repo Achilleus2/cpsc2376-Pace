@@ -10,9 +10,9 @@ private:
 	int turns = 0;
 public:
 	Connect4();
-	void play(int row, int column);
+	void play(int column);
 	std::vector<std::vector<int>> getBoard() const;
-	enum class gameState { onGoing, player1Wins, player2Wins, draw };
+	enum gameState { onGoing, player1Wins, player2Wins, draw };
 	enum Connect4::gameState status() const;
 	void display() const;
 	std::vector<std::vector<int>> makeBoard();
