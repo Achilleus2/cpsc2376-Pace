@@ -12,13 +12,8 @@ int main() {
         Connect4 a;
         a.display();
         while (a.status() == Connect4::gameState::onGoing)
-        {
-            int player = 1;
-            if ((a.playerTurn() - 1) == 0) {
-                player = 2;
-            }
-            std::vector<std::vector<int>> b = a.getBoard();
-            std::cout << "Player " << player << " enter the number of the column you would like to send your piece down into : ";
+        {            
+            std::cout << "Player " << a.playerTurn() << " enter the number of the column you would like to send your piece down into : ";
             int column = getInt();
             a.play(column);
             a.display();
@@ -29,7 +24,7 @@ int main() {
         else if (a.status() == Connect4::gameState::player2Wins) {
             std::cout << "Player 2 wins" << std::endl;
         }
-        else {
+        else if (a.status() == Connect4::gameState::draw) {
             std::cout << "Game has ended in a Draw" << std::endl;
         }
         std::cout << "Enter 1 to play again or any other integer value to exit the program: ";

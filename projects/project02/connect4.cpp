@@ -10,29 +10,20 @@ Connect4::Connect4()
 
 void Connect4::play(int column)
 {
-    turns--;
-    if (column > 7 || column < 1) {
-        std::cerr << "\n\n\n\n\n\n*****Error: You have entered a number this isn't between 1 and 7, try again.*****";
-        turns++;
+    if (column > 7 || column < 1)
+    {
+        return;
     }
     else if (columnAvailibility(board, (column - 1)) > -1) {
         column -= 1;
         if (playerTurn() == 1) {
             board[columnAvailibility(board, column)][column] = 1;
         }
-        else if (playerTurn() == 0) {
+        else if (playerTurn() == 2) {
             board[columnAvailibility(board, column)][column] = 2;
-        }
+        }    
+        turns--;
     }
-    else {
-        std::cerr << "\n\n\n\n\n\n*****Error: The column you have entered is full, try again.*****";
-        turns++;
-    }
-}
-
-std::vector<std::vector<int>> Connect4::getBoard() const
-{
-    return board;
 }
 
 enum Connect4::gameState Connect4::status() const
@@ -288,7 +279,7 @@ enum Connect4::gameState Connect4::status() const
 
 std::ostream& operator<<(std::ostream& out, const Connect4& a)
 {
-    out << "\n\n\n\n\n\n\n";
+    out << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
     out << "*Rules*\nSetup : Player #1 gets an X board piece and player #2 gets a O board piece. Take turns dropping one piece into a column.\n"
         << "Objective : Be the first to connect four of your pieces in a row, column, or diagonal.\n"
         << "Turns : Players take turns dropping one piece at a time. Pieces stack on top of each other.\n"
@@ -328,12 +319,12 @@ std::vector<std::vector<int>> Connect4::makeBoard()
     return nums;
 }
 
-int Connect4::playerTurn()
+int Connect4::playerTurn() const
 {
-    return turns % 2;
+    return (turns % 2)+1;
 }
 
-int Connect4::columnAvailibility(std::vector<std::vector<int>>& nums, int columnNum)
+int Connect4::columnAvailibility(const std::vector<std::vector<int>>& nums, int columnNum)
 {
     for (int i = 5; i >= 0; i--)
     {
@@ -344,4 +335,3 @@ int Connect4::columnAvailibility(std::vector<std::vector<int>>& nums, int column
     }
     return -1;
 }
-
