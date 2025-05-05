@@ -2,7 +2,7 @@
 
 class A {
 public:
-    void show() { std::cout << "A" << std::endl; }
+     void show() { std::cout << "A" << std::endl; }
 };
 
 class B : public A {};
@@ -37,7 +37,7 @@ public:
 
     void setAge(int a) { age = a; }
 
-    //int getAge() { return age; }
+    int getAge() { return age; }
 
     friend void showAge(Animal a);
 
@@ -61,8 +61,10 @@ public:
 
 int main() {
 
-    D obj;
-    obj.show();
+    Animal b;
+    Animal c(11);
+    Animal d = c + b;
+    showAge(d);
 
     return 0;
 }
