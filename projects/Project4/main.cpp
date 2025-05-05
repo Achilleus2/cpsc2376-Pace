@@ -99,13 +99,11 @@ void drawWinScreen(Connect4& game, Engine& engine, bool& wantReplay, bool& wantQ
         }
     }
 
-    // Draw replay button (circle with arrow)
+    // Draw replay button
     int replayX = 300, replayY = 450;
-    // Draw replay button border
-    engine.drawCircle(replayX, replayY, 34, { 255, 255, 255, 255 }); // white border
-    // Replay button (green)
+    engine.drawCircle(replayX, replayY, 34, { 255, 255, 255, 255 });
     engine.drawCircle(replayX, replayY, 30, { 0, 255, 0, 255 });
-    // Arrow (same as before)
+    // Arrow 
     for (int i = -1; i <= 1; ++i) {
         engine.drawLine(replayX + i, replayY - 10, replayX + i, replayY + 10, { 0, 100, 0, 255 });
         engine.drawLine(replayX + i, replayY - 10, replayX + 10 + i, replayY , { 0, 100, 0, 255 });
@@ -113,8 +111,7 @@ void drawWinScreen(Connect4& game, Engine& engine, bool& wantReplay, bool& wantQ
 
     // Draw quit button (X in red box)
     int quitX = 500, quitY = 450;
-    engine.drawRectangle(quitX, quitY, 64, 64, { 255, 255, 255, 255 }); // white border
-    // Quit button (red box)
+    engine.drawRectangle(quitX, quitY, 64, 64, { 255, 255, 255, 255 });
     engine.drawRectangle(quitX, quitY, 60, 60, { 255, 0, 0, 255 });
     // "X" icon
     for (int i = -1; i <= 1; ++i) {
