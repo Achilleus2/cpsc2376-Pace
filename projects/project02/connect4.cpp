@@ -4,23 +4,37 @@
 
 Connect4::Connect4()
 {
-    Connect4::board = makeBoard();
+    Connect4::board = {
+        {0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0} };
     turns = 42;
 }
 
 void Connect4::play(int column)
 {
+    int row = -1;
+    for (int i = 0; i <= 5; i++)
+    {
+        if (board[i][column-1] == 0)
+        {
+            row = i;
+        }
+    }
     if (column > 7 || column < 1)
     {
         return;
     }
-    else if (columnAvailibility(board, (column - 1)) > -1) {
+    else if (row > -1) {
         column -= 1;
         if (playerTurn() == 1) {
-            board[columnAvailibility(board, column)][column] = 1;
+            board[row][column] = 1;
         }
         else if (playerTurn() == 2) {
-            board[columnAvailibility(board, column)][column] = 2;
+            board[row][column] = 2;
         }    
         turns--;
     }
@@ -307,31 +321,7 @@ void Connect4::display() const
     std::cout << *this;
 }
 
-std::vector<std::vector<int>> Connect4::makeBoard()
-{
-    std::vector<std::vector<int>> nums = {
-        {0,0,0,0,0,0,0},
-        {0,0,0,0,0,0,0},
-        {0,0,0,0,0,0,0},
-        {0,0,0,0,0,0,0},
-        {0,0,0,0,0,0,0},
-        {0,0,0,0,0,0,0} };
-    return nums;
-}
-
 int Connect4::playerTurn() const
 {
     return (turns % 2)+1;
-}
-
-int Connect4::columnAvailibility(const std::vector<std::vector<int>>& nums, int columnNum)
-{
-    for (int i = 5; i >= 0; i--)
-    {
-        if (nums[i][columnNum] == 0)
-        {
-            return i;
-        }
-    }
-    return -1;
 }
