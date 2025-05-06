@@ -15,7 +15,8 @@ the lowest available slot in the selected column.
 ## Screenshot
  
 ![Screenshot](screenshot.png)
- 
+![Screenshot](screenshot1.png)
+
 ## Extra Features
  
 - Hovering over a column shows the current player's piece above that column.
